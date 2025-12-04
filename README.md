@@ -13,7 +13,7 @@ People often ask me which LLM they should use. These tools help you answer that 
 
 ## 🤝 commonGround - Consensus Analyzer
 
-![common ground](ruta/common_ground.png)
+![common ground](common_ground.png)
 
 
 Compare responses from multiple LLMs, find what they agree on, and let Claude judge the winner.
@@ -37,7 +37,7 @@ Compare responses from multiple LLMs, find what they agree on, and let Claude ju
 | **Overly Enthusiastic** | Does it exaggerate? |
 | **Coherence Score** | How well does it align with other responses? (1-10) |
 
-![common ground_2](ruta/common_ground_2.png)
+![common ground_2](common_ground_2.png)
 
 
 ### Best for
@@ -52,6 +52,9 @@ Compare responses from multiple LLMs, find what they agree on, and let Claude ju
 
 Measure quantitative performance metrics across multiple models and iterations.
 
+![common bench](common_bench01.png)
+
+
 ### What it does
 
 - **Benchmark multiple LLMs** with configurable iterations (1-30)
@@ -59,6 +62,10 @@ Measure quantitative performance metrics across multiple models and iterations.
 - **Capture TTFT** - Time to First Token (critical UX metric)
 - **Track reliability** - error rate as operational quality metric
 - **Estimate costs** - before running expensive benchmarks
+
+  **Every assessment allows parameters tuning, as well as iterations**
+  ![common bench_2](common_bench2.png)
+
 
 ### Performance Metrics (Quantitative)
 
