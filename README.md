@@ -80,6 +80,9 @@ This is particularly useful for:
    - Generates consensus points
    - Creates a quality metrics table
    - Produces a final verdict
+  
+    ![LLM_comparator_results](common_ground_2.png)
+
 
 ### Understanding the Results
 
