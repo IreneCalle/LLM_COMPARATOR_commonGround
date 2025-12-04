@@ -13,6 +13,9 @@ People often ask me which LLM they should use. These tools help you answer that 
 
 ## 🤝 commonGround - Consensus Analyzer
 
+![common ground](ruta/common_ground.png)
+
+
 Compare responses from multiple LLMs, find what they agree on, and let Claude judge the winner.
 
 ### What it does
@@ -33,6 +36,9 @@ Compare responses from multiple LLMs, find what they agree on, and let Claude ju
 | **Subjective** | Is it overly opinionated? |
 | **Overly Enthusiastic** | Does it exaggerate? |
 | **Coherence Score** | How well does it align with other responses? (1-10) |
+
+![common ground_2](ruta/common_ground_2.png)
+
 
 ### Best for
 - Evaluating prompt effectiveness
