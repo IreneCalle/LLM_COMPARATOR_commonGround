@@ -1,235 +1,254 @@
-# 🤝 commonGround
+# 🧪 LLM Evaluation Suite
 
-**Multi-Model Consensus Analyzer for LLM Evaluation**
+**Two complementary tools for comprehensive LLM evaluation**
 
-commonGround is an interactive tool that helps you compare responses from multiple Large Language Models (LLMs) simultaneously, analyze their consensus, and identify the best-performing model based on objective criteria.
-People ofter ask me which LLM they should be using on a daily basis, so I figured they might as well enjoy assess answers themselves (I DO).
-## 🎯 What is commonGround?
+| Tool | Purpose | Approach |
+|------|---------|----------|
+| 🤝 **commonGround** | Qualitative analysis | Consensus, coherence, LLM-as-judge |
+| 📊 **commonBench** | Quantitative benchmarking | Latency, cost, error rate, TTFT |
 
-commonGround allows you to:
-- **Query 4 different LLMs** at once with the same question
-- **Find consensus** - discover the 3 main points all models agree on
-- **Measure coherence** - evaluate how well the responses align with each other
-- **Assess quality** - automatically detect hallucinations, off-topic responses, subjectivity, and more
-- **Get a verdict** - let Claude act as a judge to determine the winning model based on your objective
+People often ask me which LLM they should use. These tools help you answer that question with data—both qualitative consensus and quantitative metrics.
 
-This is particularly useful for:
-- Evaluating prompt effectiveness across different models
-- Understanding LLM behavior and biases
+---
+
+## 🤝 commonGround - Consensus Analyzer
+
+Compare responses from multiple LLMs, find what they agree on, and let Claude judge the winner.
+
+### What it does
+
+- **Query 4 LLMs** simultaneously with the same question
+- **Find consensus** - the 3 main points all models agree on
+- **Measure coherence** - how well responses align (1-10)
+- **Assess quality** - detect hallucinations, off-topic responses, subjectivity
+- **Get a verdict** - Claude judges the winner based on your objective
+
+### Quality Metrics (Qualitative)
+
+| Metric | What it measures |
+|--------|------------------|
+| **Hallucination** | Does it contain false information? |
+| **Imprecise** | Is it vague or lacking detail? |
+| **Off-Topic** | Does it stray from the question? |
+| **Subjective** | Is it overly opinionated? |
+| **Overly Enthusiastic** | Does it exaggerate? |
+| **Coherence Score** | How well does it align with other responses? (1-10) |
+
+### Best for
+- Evaluating prompt effectiveness
+- Understanding model biases
 - Finding the most reliable model for specific tasks
-- Researching LLM evaluation metrics and methodologies
+- Research on LLM behavior
 
-  ![LLM_comparator](common_ground.png)
+---
 
+## 📊 commonBench - Technical Benchmarking
+
+Measure quantitative performance metrics across multiple models and iterations.
+
+### What it does
+
+- **Benchmark multiple LLMs** with configurable iterations (1-30)
+- **Measure real costs** - dynamic pricing from OpenRouter API
+- **Capture TTFT** - Time to First Token (critical UX metric)
+- **Track reliability** - error rate as operational quality metric
+- **Estimate costs** - before running expensive benchmarks
+
+### Performance Metrics (Quantitative)
+
+#### Tier 1: Speed & Tokens
+| Metric | What it measures | Good is... |
+|--------|------------------|------------|
+| `latency_sec` | Total response time | Low |
+| `ttft_sec` | Time to First Token | Low (<1s) |
+| `tokens_per_sec` | Generation throughput | High |
+| `input_tokens` | Tokens sent | - |
+| `output_tokens` | Tokens received | - |
+
+#### Tier 2: Cost
+| Metric | What it measures | Good is... |
+|--------|------------------|------------|
+| `cost_usd` | Actual cost per call | Low |
+| `is_free` | Whether model is free tier | - |
+| `pricing_source` | Where price came from (api/fallback) | api |
+
+#### Tier 3: Text Quality
+| Metric | What it measures | Good is... |
+|--------|------------------|------------|
+| `lexical_diversity` | Unique words / total words | 0.6-0.8 |
+| `readability_flesch` | Flesch Reading Ease score | 60-70 |
+| `word_count` | Response length | Depends on task |
+
+#### Tier 4: Operational Quality
+| Metric | What it measures | Good is... |
+|--------|------------------|------------|
+| `error_rate_%` | Percentage of failed calls | Low (<5%) |
+| `availability_%` | Percentage of successful calls | High (>95%) |
+| `retry_count` | Retries needed | Low (0) |
+
+#### Tier 5: Optional
+| Metric | What it measures | Good is... |
+|--------|------------------|------------|
+| `f1_score` | Word overlap with reference | High |
+
+### Best for
+- Model selection for production
+- Cost optimization
+- Detecting performance regressions
+- Comparing price/performance tradeoffs
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.8+
-- Jupyter Notebook or JupyterLab (or run it as a standalone Python script)
-- I did use Cursor + UV for this.
-- An OpenRouter API key ([Get one here](https://openrouter.ai/keys)) 
+- Jupyter Notebook
+- OpenRouter API key ([Get one here](https://openrouter.ai/keys))
 
 ### Installation
 
-1. **Clone or download** this repository
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd llm-evaluation-suite
 
-2. **Create your environment file:**
-   ```bash
-   cp .env.example .env
-   ```
+# 2. Create environment file
+cp .env.example .env
 
-3. **Add your OpenRouter API key** to the `.env` file:
-   ```
-   OPENROUTER_API_KEY=your_actual_api_key_here
-   ```
+# 3. Add your API key to .env
+OPENROUTER_API_KEY=your_key_here
 
-4. **Open the notebook:**
-   ```bash
-   jupyter notebook commonGround.ipynb
-   ```
+# 4. Open the notebook you want
+jupyter notebook commonGround.ipynb  # Port 7867
+# or
+jupyter notebook commonBench_v2.ipynb  # Port 7868
+```
 
-5. **Run all cells** - the first cell will automatically install required dependencies:
-   - `gradio` - for the web interface
-   - `openai` - for API calls (OpenRouter is OpenAI-compatible)
-   - `python-dotenv` - for loading environment variables
+Both tools can run simultaneously on different ports.
 
-6. **Access the app** - Gradio will provide both a local and a **shareable public link**
+---
 
-## 📖 How to Use
+## 🔄 When to Use Each Tool
 
-### Basic Workflow
+| Scenario | Use |
+|----------|-----|
+| "Which model gives the best answer?" | 🤝 commonGround |
+| "Which model is fastest and cheapest?" | 📊 commonBench |
+| "Do models agree on this topic?" | 🤝 commonGround |
+| "How consistent is this model?" | 📊 commonBench (multiple iterations) |
+| "Is this model hallucinating?" | 🤝 commonGround |
+| "What's the real cost of using this model?" | 📊 commonBench |
+| "Which model has best UX (fast first response)?" | 📊 commonBench (TTFT) |
+| "Which model best meets my specific objective?" | 🤝 commonGround |
 
-1. **Enter your question** - Type any question you want multiple LLMs to answer
-   - Example: "What are the most important metrics for evaluating LLM performance?"
+### Using Both Together
 
-2. **Define your objective** - Describe what the ideal response should achieve
-   - Example: "Provide a comprehensive explanation with practical examples"
+1. **Start with commonBench** to narrow down candidates based on cost/speed
+2. **Then use commonGround** to evaluate quality among the finalists
 
-3. **Select 4 models** - Choose from the available models in the dropdowns
-   - All models must be different
+---
 
-4. **Adjust parameters** (optional):
-   - **Temperature** (0.0-2.0): Controls randomness - higher = more creative
-   - **Top P** (0.0-1.0): Nucleus sampling - controls diversity
+## 🌐 About OpenRouter
 
-5. **Click "Analyze Responses"** - Wait while the app:
-   - Queries all 4 models
-   - Analyzes their responses
-   - Generates consensus points
-   - Creates a quality metrics table
-   - Produces a final verdict
-  
-    ![LLM_comparator_results](common_ground_2.png)
+[OpenRouter](https://openrouter.ai) provides unified access to 100+ LLMs through a single API:
 
+- ✅ Single API key for all providers
+- ✅ Pay-as-you-go pricing
+- ✅ Many free models available (marked with `:free`)
+- ✅ OpenAI-compatible interface
 
-### Understanding the Results
+---
 
-#### 📊 Model Responses
-You'll see the full response from each of the 4 models.
+## 📁 Project Structure
 
-#### 🎯 Consensus & Coherence
-- **Consensus Points**: The 3 main ideas all models agree on
-- **Coherence Score**: A 1-10 rating of how well responses align
-- **Repetition/Simplicity**: Assessment of redundancy and complexity
+```
+llm-evaluation-suite/
+├── commonGround.ipynb     # Qualitative consensus analyzer
+├── commonBench_v2.ipynb   # Quantitative benchmarking tool
+├── .env.example           # Environment template
+├── .env                   # Your API key (not committed)
+└── README.md              # This file
+```
 
-#### 📋 Quality Metrics Table
-Each model is evaluated on:
-- **Hallucination**: Does it contain false information?
-- **Imprecise**: Is it vague or lacking detail?
-- **Off-Topic**: Does it stray from the question?
-- **Subjective**: Is it overly opinionated?
-- **Overly Enthusiastic**: Does it exaggerate?
-- **Tone**: Description of the writing style
-
-#### 🏆 Final Verdict
-Claude evaluates all responses and declares a winner based on:
-- **Objective fulfillment**: Did it achieve your stated goal?
-- **Clarity**: Is it well-written and easy to understand?
-- **Consensus alignment**: Does it match the common ground?
-- **Structure**: Is it well-organized?
-
-## 🌐 What is OpenRouter?
-
-[OpenRouter](https://openrouter.ai) is a unified API that provides access to multiple LLM providers through a single interface. Instead of managing separate API keys for OpenAI, Anthropic, Google, Meta, and others, you use one OpenRouter key to access them all.
-
-### Why Use OpenRouter?
-
-✅ **Single API for Multiple Models**
-- Access 100+ models from different providers with one API key
-- No need to manage multiple subscriptions
-
-✅ **Cost-Effective**
-- Pay-as-you-go pricing with no subscriptions
-- Many free models available (marked with `:free`)
-- Competitive rates, often cheaper than direct provider access
-
-✅ **Standardized Interface**
-- OpenAI-compatible API format
-- Easy to switch between models without code changes
-
-✅ **Transparency**
-- See exact costs before making requests
-- Clear pricing for each model
-
-✅ **Developer-Friendly**
-- Rate limiting and error handling built-in
-- Detailed usage analytics
-
-
-For analysis and verdict, the app uses **Claude 3.5 Sonnet** (paid but accurate) as the judge.
+---
 
 ## 🛠️ Technical Details
 
-### Architecture
-
+### commonGround Architecture
 ```
-User Input → 4 Parallel LLM Calls → Response Collection
-                ↓
-        Consensus Analysis (Claude)
-                ↓
-        Quality Metrics Extraction
-                ↓
-        Final Verdict (Claude)
+User Input → 4 Parallel LLM Calls → Consensus Analysis (Claude)
+                                  → Quality Metrics Extraction
+                                  → Final Verdict (Claude)
 ```
 
-### Error Handling
-
-The app includes robust error handling:
-- API key validation
-- Model availability checks
-- Graceful failure messages
-- Duplicate model prevention
-
-### Practices Implemented
-
-1. **Clear System Prompts**: Each model receives a consistent system message
-2. **Structured Output**: Analysis uses JSON for reliable parsing
-3. **Temperature Control**: Different temperatures for creative vs analytical tasks
-4. **Token Limits**: Responses capped at 500 tokens to keep costs low
-5. **Validation**: Input validation before expensive API calls
-
-## 📊 Use Cases
-
-### For Researchers
-- Compare model behaviors on specific tasks
-- Study consensus patterns in LLM responses
-- Evaluate prompt engineering strategies
-
-### For Developers
-- Test API responses across providers
-- Find the best model for your specific use case
-- Validate model reliability before production
-
-### For Content Creators
-- Get diverse perspectives on topics
-- Find the most accurate information
-- Identify potential biases or errors
-
-## 💡 Tips for Best Results
-
-1. **Be Specific**: Clear questions get better responses
-2. **Define Objectives**: Help the judge understand what "good" means
-3. **Vary Models**: Mix different model sizes and providers
-4. **Adjust Temperature**: Lower for facts, higher for creativity
-5. **Review Metrics**: Don't just trust the verdict - examine the quality table
-
-
-### "Please select 4 different models"
-- Make sure all 4 dropdown selections are unique
-
-### Analysis or verdict fails
-- Check your internet connection
-- Verify Claude 3.5 Sonnet is accessible through OpenRouter
-- Try reducing the complexity of your question
-
-## 📝 Requirements
-
+### commonBench Architecture
 ```
-gradio>=4.0.0
-openai>=1.0.0
-python-dotenv>=1.0.0
+User Input → Cost Estimation → N×M LLM Calls (with retry)
+                             → Metrics Collection (TTFT, latency, cost)
+                             → Error Rate Tracking
+                             → Aggregated Statistics
 ```
+
+### Key Technical Features
+
+| Feature | commonGround | commonBench |
+|---------|--------------|-------------|
+| Parallel calls | ✅ | ✅ |
+| Error handling | Basic | Advanced (retry + backoff) |
+| Cost tracking | ❌ | ✅ Dynamic pricing |
+| TTFT measurement | ❌ | ✅ Via streaming |
+| Multiple iterations | ❌ | ✅ 1-30 |
+| LLM-as-judge | ✅ Claude | ❌ |
+| Export results | ❌ | ✅ CSV |
+
+---
+
+## 💡 Tips
+
+### For commonGround
+- Be specific with your question
+- Define clear objectives for the judge
+- Mix different model sizes and providers
+
+### For commonBench
+- Use 5-10 iterations for reliable statistics
+- Check `std` (standard deviation) for consistency
+- Compare `error_rate` alongside raw performance
+- Look at TTFT for user-facing applications
+
+---
+
+## 📊 Understanding the Metrics
+
+### Why TTFT matters
+Time to First Token measures when the user sees the first character. A model with 0.3s TTFT feels faster than one with 2s TTFT, even if total latency is similar.
+
+### Why error_rate matters
+A model with 95% accuracy but 20% error rate has worse *operational quality* than one with 90% accuracy and 2% error rate. Reliability is a quality metric.
+
+### Why dynamic pricing matters
+LLM prices change frequently. Hardcoded prices become wrong within weeks. commonBench fetches current prices from OpenRouter's API.
+
+---
 
 ## 🤝 Contributing
 
 Feel free to:
-- Add more models to the `AVAILABLE_MODELS` list
-- Improve the analysis prompts
-- Enhance the UI/UX
-- Add new evaluation metrics
+- Add more models to the available lists
+- Improve analysis prompts
+- Add new metrics
+- Enhance visualizations
+
+---
 
 ## 📄 License
 
-This project is open-source and available for educational and research purposes.
+Open-source for educational and research purposes.
 
-## 🙏 Acknowledgments
-
-- Built with [Gradio](https://gradio.app) for the interface
-- Powered by [OpenRouter](https://openrouter.ai) for multi-model access
-- Uses [Claude 3.5 Sonnet](https://anthropic.com) as the evaluation judge
-- Ed Donner & others for sparking curiosity.
 ---
 
-**Ready to find common ground?** Start the notebook and discover what LLMs really agree on! 🚀
+**Ready to evaluate?** Start with the tool that matches your question:
+- *"Which response is best?"* → 🤝 commonGround
+- *"Which model performs best?"* → 📊 commonBench
