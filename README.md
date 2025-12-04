@@ -19,6 +19,9 @@ This is particularly useful for:
 - Finding the most reliable model for specific tasks
 - Researching LLM evaluation metrics and methodologies
 
+  ![LLM_comparator](img/common_ground.png)
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
